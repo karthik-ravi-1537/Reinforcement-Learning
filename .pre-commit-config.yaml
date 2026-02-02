@@ -1,0 +1,21 @@
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.4.4
+    hooks:
+      - id: ruff
+        args: ["--fix"]
+      - id: ruff-format
+
+  - repo: https://github.com/psf/black
+    rev: 24.4.2
+    hooks:
+      - id: black
+
+  - repo: local
+    hooks:
+      - id: sync-requirements
+        name: Sync requirements.txt from uv.lock
+        entry: uv export --no-dev --format requirements-txt --output-file requirements.txt
+        language: system
+        files: uv.lock
+        pass_filenames: false

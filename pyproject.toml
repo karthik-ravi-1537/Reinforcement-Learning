@@ -1,0 +1,122 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rl-lab"
+version = "0.1.0"
+description = "Reinforcement Learning learning lab - from fundamentals to deep RL"
+readme = "README.md"
+license = "MIT"
+authors = [{name = "Karthik Ravi"}]
+requires-python = ">=3.11"
+keywords = [
+    "reinforcement-learning",
+    "deep-rl",
+    "gymnasium",
+    "stable-baselines3",
+    "ppo",
+    "dqn",
+    "policy-gradient",
+]
+
+dependencies = [
+    # Core ML
+    "torch>=2.0.0",
+    "numpy>=1.24.0",
+    "pandas>=2.0.0",
+    "scipy>=1.10.0",
+
+    # RL Environments
+    "gymnasium[classic-control,box2d,mujoco]>=0.29.0",
+    "ale-py>=0.8.0",  # Atari
+
+    # RL Libraries
+    "stable-baselines3>=2.0.0",
+    "sb3-contrib>=2.0.0",  # Extra algorithms
+    "shimmy>=1.0.0",  # Environment compatibility
+
+    # Visualization
+    "matplotlib>=3.7.0",
+    "seaborn>=0.12.0",
+    "plotly>=5.15.0",
+    "tensorboard>=2.14.0",
+
+    # Utilities
+    "tqdm>=4.65.0",
+    "python-dotenv>=1.0.0",
+    "pyyaml>=6.0",
+    "rich>=13.0.0",
+    "typer>=0.9.0",
+
+    # Jupyter/Interactive
+    "jupyter>=1.0.0",
+    "ipywidgets>=8.0.0",
+
+    # Video recording
+    "moviepy>=1.0.3",
+    "imageio>=2.31.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pre-commit>=3.0.0",
+    "ruff>=0.4.0",
+    "black>=24.0.0",
+    "pytest>=8.0.0",
+    "pytest-cov>=4.0.0",
+]
+
+[project.urls]
+Repository = "https://github.com/karthik-ravi-1537/Reinforcement-Learning"
+
+[project.scripts]
+rl-lab = "rl_lab.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["rl_lab*"]
+
+[tool.black]
+line-length = 100
+target-version = ['py311']
+exclude = '''
+/(
+    \.venv
+    | venv
+    | build
+    | dist
+    | \.git
+)/
+'''
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+extend-exclude = [".venv", "venv", "build", "dist"]
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "UP",   # pyupgrade
+    "B",    # flake8-bugbear
+]
+ignore = [
+    "E501",  # line too long (handled by black)
+    "E402",  # module level import not at top
+]
+
+[tool.ruff.lint.isort]
+force-single-line = false
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-v --tb=short"
