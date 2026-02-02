@@ -21,14 +21,18 @@ Build a **Reinforcement Learning learning lab** - from fundamentals to deep RL a
 - [x] CLI with basic commands
 - [x] Common utilities (device detection, seeding, env helpers)
 - [x] Documentation structure
+- [x] Phase 1: Tabular RL fundamentals
+  - [x] MDP/Bellman notebook with value iteration
+  - [x] Base agent class
+  - [x] Q-Learning agent
+  - [x] SARSA + Expected SARSA agents
+  - [x] FrozenLake training script
+  - [x] On-policy vs off-policy comparison notebook
 
 ### TODO
-- [ ] Implement tabular Q-learning agent
 - [ ] Implement DQN agent
 - [ ] Implement PPO agent
-- [ ] Add experiment scripts
-- [ ] Add Jupyter notebooks for exploration
-- [ ] Document research questions / learning goals
+- [ ] RLHF / DPO / GRPO content
 
 ---
 
@@ -59,11 +63,11 @@ rl_lab/
 
 ## Learning Roadmap
 
-### Phase 1: Fundamentals
-- [ ] Understand MDPs, Bellman equations
-- [ ] Implement tabular Q-learning on FrozenLake
-- [ ] Implement SARSA
-- [ ] Compare on-policy vs off-policy
+### Phase 1: Fundamentals ✓
+- [x] Understand MDPs, Bellman equations
+- [x] Implement tabular Q-learning on FrozenLake
+- [x] Implement SARSA
+- [x] Compare on-policy vs off-policy
 
 ### Phase 2: Deep RL Basics
 - [ ] Implement DQN from scratch
