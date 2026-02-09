@@ -1,98 +1,160 @@
 # Reinforcement Learning Lab
 
-A personal learning lab for **Reinforcement Learning** - from fundamentals to deep RL.
+A hands-on learning lab for **Reinforcement Learning** — from tabular fundamentals to the algorithms powering LLM alignment (RLHF, DPO, GRPO).
 
-## Quick Start
+## Getting Started
 
 ```bash
 # Install uv if you haven't
 curl -LsSf https://astral.sh/uv/install.sh | sh
 
-# Setup
+# Clone and setup
 cd Reinforcement-Learning
 uv sync
 
-# Test environment
+# Verify everything works
 uv run rl-lab info CartPole-v1
+```
 
-# Run a demo
-uv run rl-lab demo CartPole-v1
+## The Learning Path
+
+Work through the notebooks in order. Each one builds on the previous.
+
+### Phase 1: RL Fundamentals
+
+| # | Notebook | What You'll Learn |
+|---|----------|-------------------|
+| 01 | [MDP Fundamentals](notebooks/01_mdp_fundamentals.ipynb) | Markov Decision Processes, Bellman equations, value iteration, policy iteration |
+| 02 | [Q-Learning vs SARSA](notebooks/02_qlearning_vs_sarsa.ipynb) | Tabular RL, on-policy vs off-policy, the CliffWalking experiment |
+
+**Key idea**: RL is about learning to make good sequential decisions by trial and error.
+
+Start here if you're new to RL. These notebooks use simple grid environments where you can see every state and action.
+
+### Phase 2: Deep RL
+
+| # | Notebook | What You'll Learn |
+|---|----------|-------------------|
+| 03 | [REINFORCE](notebooks/03_reinforce.ipynb) | Policy gradients, why we need them, variance reduction with baselines |
+| 04 | [DQN Deep Dive](notebooks/04_dqn_deep_dive.ipynb) | Neural network Q-functions, experience replay, target networks |
+| 05 | [PPO Deep Dive](notebooks/05_ppo_deep_dive.ipynb) | Clipped surrogate objective, GAE, the bridge from RL to RLHF |
+
+**Key idea**: Replace tables with neural networks to handle complex environments.
+
+These notebooks train agents on CartPole and LunarLander. PPO (notebook 05) is especially important — it's the backbone of RLHF.
+
+### Phase 3: LLM Alignment
+
+| # | Notebook | What You'll Learn |
+|---|----------|-------------------|
+| 06 | [RLHF](notebooks/06_rlhf.ipynb) | Reward modeling from human preferences, PPO + KL penalty, reward hacking |
+| 07 | [DPO](notebooks/07_dpo.ipynb) | Direct preference optimization — skip the reward model entirely |
+| 08 | [GRPO](notebooks/08_grpo.ipynb) | Group-relative advantages, RLVR with verifiable rewards (DeepSeek-R1 style) |
+
+**Key idea**: Use RL to align language models with human preferences.
+
+These use toy "language models" to demonstrate the core mechanics without needing a GPU cluster. The math and algorithms are identical to real-world implementations.
+
+## Running Notebooks
+
+```bash
+# Launch Jupyter
+uv run jupyter lab notebooks/
+
+# Start with notebook 01 and work through in order
+```
+
+Each notebook includes:
+- **Theory** with equations and intuitive explanations
+- **Implementation** from scratch (not just library calls)
+- **Visualizations** of training, policies, and ablations
+- **Exercises** to deepen understanding
+
+## Running Experiments
+
+```bash
+# Train tabular agents on FrozenLake
+uv run python rl_lab/experiments/train_frozenlake.py --agent all --episodes 10000
+
+# Train a specific agent
+uv run python rl_lab/experiments/train_frozenlake.py --agent q_learning
+
+# Non-slippery version (easier)
+uv run python rl_lab/experiments/train_frozenlake.py --no-slippery
 ```
 
 ## Project Structure
 
 ```
-Reinforcement-Learning/
-├── rl_lab/
-│   ├── agents/           # Agent implementations
-│   ├── environments/     # Custom envs, wrappers
-│   ├── experiments/      # Training scripts
-│   ├── utils/            # Helpers, plotting
-│   └── cli.py            # CLI tool
-├── notebooks/            # Interactive exploration
-├── configs/              # Experiment configs
-├── docs/                 # Documentation
-└── tests/                # Unit tests
+rl_lab/
+├── agents/              # Agent implementations
+│   ├── base.py          # BaseAgent, TabularAgent (ε-greedy, Q-table)
+│   ├── q_learning.py    # Tabular Q-Learning
+│   ├── sarsa.py         # SARSA + Expected SARSA
+│   ├── dqn.py           # DQN (replay buffer, target network)
+│   └── ppo.py           # PPO (clipped objective, GAE)
+│
+├── environments/        # Custom environments, wrappers
+├── experiments/         # Training scripts
+│   └── train_frozenlake.py
+├── utils/
+│   └── common.py        # Device detection, seeding, env helpers
+└── cli.py               # CLI tool
+
+notebooks/               # 8 interactive notebooks (the main learning path)
+docs/                    # Project docs and status
 ```
 
-## Tool Stack
-
-| Library | Purpose |
-|---------|---------|
-| **Gymnasium** | Environment API (successor to OpenAI Gym) |
-| **Stable-Baselines3** | Production RL algorithms (PPO, DQN, SAC, etc.) |
-| **TensorBoard** | Training visualization |
-| **PyTorch** | Deep learning backend |
-
-## Environments
-
-### Classic Control
-- `CartPole-v1` - Balance a pole on a cart
-- `MountainCar-v0` - Drive car up a hill
-- `Acrobot-v1` - Swing up a double pendulum
-- `Pendulum-v1` - Swing up a pendulum (continuous)
-
-### Box2D
-- `LunarLander-v2` - Land a spacecraft
-- `BipedalWalker-v3` - Walk with a 2D robot
-
-### Atari (via ale-py)
-- Pong, Breakout, Space Invaders, etc.
-
-## Learning Path
-
-1. **Fundamentals** - MDPs, value functions, Bellman equations
-2. **Tabular Methods** - Q-learning, SARSA, Monte Carlo
-3. **Function Approximation** - Linear, neural network
-4. **Policy Gradient** - REINFORCE, Actor-Critic
-5. **Deep RL** - DQN, PPO, SAC
-
-## Commands
+## CLI Commands
 
 ```bash
-# Install dependencies
-uv sync
+uv run rl-lab list-envs          # List available environments
+uv run rl-lab info CartPole-v1   # Show environment details
+uv run rl-lab demo LunarLander-v3  # Watch random agent play
+```
 
-# List environments
-uv run rl-lab list-envs
+## Algorithm Cheat Sheet
 
-# Environment info
-uv run rl-lab info CartPole-v1
-
-# Run demo with random actions
-uv run rl-lab demo LunarLander-v2
-
-# TensorBoard
-uv run tensorboard --logdir runs/
+```
+         Tabular                    Deep RL                  LLM Alignment
+    ┌──────────────┐          ┌──────────────┐          ┌──────────────┐
+    │  Q-Learning  │    NN    │     DQN      │          │    RLHF      │
+    │   (off-pol)  │ ──────→  │ (replay+tgt) │          │  (PPO+RM+KL) │
+    └──────────────┘          └──────────────┘          └──────────────┘
+    ┌──────────────┐          ┌──────────────┐          ┌──────────────┐
+    │    SARSA     │  policy  │  REINFORCE   │  clip+   │     DPO      │
+    │   (on-pol)   │  grad    │  (baseline)  │  GAE     │  (no RM)     │
+    └──────────────┘ ──────→  └──────┬───────┘ ──────→  └──────────────┘
+                                     │                  ┌──────────────┐
+                                     ▼                  │    GRPO      │
+                              ┌──────────────┐          │ (group adv)  │
+                              │     PPO      │ ──────→  └──────────────┘
+                              └──────────────┘
 ```
 
 ## Key Concepts
 
-- **Episode**: One complete run from reset to termination
-- **Step**: One action taken in the environment
-- **Return**: Cumulative (discounted) reward
-- **Policy**: Mapping from states to actions
-- **Value Function**: Expected return from a state
+| Term | Meaning |
+|------|---------|
+| **Episode** | One complete run from reset to done |
+| **Step** | One action taken |
+| **Return** | Cumulative discounted reward: G = Σ γᵗrₜ |
+| **Policy** π(a\|s) | Mapping from states to actions |
+| **Value** V(s) | Expected return from state s |
+| **Q-value** Q(s,a) | Expected return from state s taking action a |
+| **Advantage** A(s,a) | Q(s,a) - V(s) — how much better is this action? |
+| **GAE** | Generalized Advantage Estimation (bias-variance trade-off) |
+| **KL Penalty** | Keeps policy close to reference (prevents reward hacking) |
+
+## Prerequisites
+
+- Python basics, comfort with NumPy
+- Some calculus (gradients) helps for deep RL notebooks
+- No prior RL knowledge needed — notebook 01 starts from scratch
+
+## Hardware
+
+Designed for **Apple M2 16GB** (local). All notebooks run in minutes, not hours. GPU not required.
 
 ## License
 
