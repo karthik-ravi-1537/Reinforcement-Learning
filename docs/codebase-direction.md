@@ -29,10 +29,14 @@ Build a **Reinforcement Learning learning lab** - from fundamentals to deep RL a
   - [x] FrozenLake training script
   - [x] On-policy vs off-policy comparison notebook
 
-### TODO
-- [ ] Implement DQN agent
-- [ ] Implement PPO agent
-- [ ] RLHF / DPO / GRPO content
+- [x] Phase 2: Deep RL
+  - [x] REINFORCE notebook (policy gradients intro)
+  - [x] DQN agent + deep-dive notebook
+  - [x] PPO agent + deep-dive notebook
+- [x] Phase 3: LLM Alignment
+  - [x] RLHF notebook (reward modeling + PPO for LMs)
+  - [x] DPO notebook (direct preference optimization)
+  - [x] GRPO notebook (group relative policy optimization + RLVR)
 
 ---
 
@@ -69,20 +73,15 @@ rl_lab/
 - [x] Implement SARSA
 - [x] Compare on-policy vs off-policy
 
-### Phase 2: Deep RL Basics
-- [ ] Implement DQN from scratch
-- [ ] Experience replay, target networks
-- [ ] Train on CartPole, then Atari
+### Phase 2: Deep RL ✓
+- [x] REINFORCE + baseline
+- [x] DQN (experience replay, target networks)
+- [x] PPO (clipped objective, GAE)
 
-### Phase 3: Policy Gradient
-- [ ] Implement REINFORCE
-- [ ] Implement Actor-Critic
-- [ ] Implement PPO
-
-### Phase 4: Advanced
-- [ ] Continuous control with SAC
-- [ ] Multi-agent RL
-- [ ] Model-based RL
+### Phase 3: LLM Alignment ✓
+- [x] RLHF (reward modeling + PPO fine-tuning)
+- [x] DPO (direct preference optimization)
+- [x] GRPO + RLVR (group-relative policy optimization)
 
 ---
 
