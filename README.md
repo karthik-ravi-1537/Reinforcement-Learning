@@ -113,24 +113,40 @@ uv run rl-lab info CartPole-v1   # Show environment details
 uv run rl-lab demo LunarLander-v3  # Watch random agent play
 ```
 
-## Algorithm Cheat Sheet
+## Algorithm Map
 
 ```
-         Tabular                    Deep RL                  LLM Alignment
-    ┌──────────────┐          ┌──────────────┐          ┌──────────────┐
-    │  Q-Learning  │    NN    │     DQN      │          │    RLHF      │
-    │   (off-pol)  │ ──────→  │ (replay+tgt) │          │  (PPO+RM+KL) │
-    └──────────────┘          └──────────────┘          └──────────────┘
-    ┌──────────────┐          ┌──────────────┐          ┌──────────────┐
-    │    SARSA     │  policy  │  REINFORCE   │  clip+   │     DPO      │
-    │   (on-pol)   │  grad    │  (baseline)  │  GAE     │  (no RM)     │
-    └──────────────┘ ──────→  └──────┬───────┘ ──────→  └──────────────┘
-                                     │                  ┌──────────────┐
-                                     ▼                  │    GRPO      │
-                              ┌──────────────┐          │ (group adv)  │
-                              │     PPO      │ ──────→  └──────────────┘
-                              └──────────────┘
+Tabular ──────────────── Deep RL ──────────────── LLM Alignment
+
+Q-Learning ── + NN ───→ DQN
+(off-policy)             (replay buffer,
+                          target network)
+
+SARSA                    REINFORCE
+(on-policy)              (policy gradient)
+                              │
+                         + baseline
+                         + clipping
+                         + GAE
+                              │
+                              ▼
+                             PPO ──────────────→ RLHF (PPO + RM + KL)
+                                                  │
+                                                  ├──→ DPO (skip the RM)
+                                                  │
+                                                  └──→ GRPO (group advantages)
 ```
+
+| Phase | Algorithm | Key Idea | Builds On |
+|-------|-----------|----------|-----------|
+| **Tabular** | Q-Learning | Off-policy, max over next actions | - |
+| | SARSA | On-policy, uses actual next action | - |
+| **Deep RL** | DQN | Q-Learning + neural net + replay buffer | Q-Learning |
+| | REINFORCE | Direct policy gradient | - |
+| | PPO | Clipped policy updates + GAE | REINFORCE |
+| **Alignment** | RLHF | PPO + reward model + KL penalty | PPO |
+| | DPO | Skip reward model, direct preference loss | RLHF |
+| | GRPO | Group-relative advantages, no critic | PPO |
 
 ## Key Concepts
 
